@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converter="clr-namespace:TheosHero.Converter"
+             xmlns:behavior="clr-namespace:TheosHero.Behavior"
+             mc:Ignorable="d"
+             x:Class="TheosHero.Views.HeroListPage"
+             Title="Theos Hero">
+    <ContentPage.Content>
+        <StackLayout>
+            <SearchBar Placeholder="Pesquisar" 
+                       BackgroundColor="{StaticResource BlueColor}"
+                       TextColor="White"
+                       PlaceholderColor="White"
+                       HeightRequest="50"
+                       Text="{Binding SearchText, Mode=TwoWay}"
+                       SearchCommand="{Binding SearchCommand}"/>
+
+            <ListView HorizontalOptions="FillAndExpand"                           
+                      VerticalOptions="FillAndExpand"
+                      SelectionMode="None"
+                      SeparatorVisibility="None"
+                      HasUnevenRows="True"
+                      ItemsSource="{Binding Heroes}"
+                      SelectedItem="{Binding SelectedHero, Mode=TwoWay}"
+                      ItemTapped="HeroList_ItemTapped">
+                <ListView.Behaviors>
+                    <behavior:InfiniteScroll LoadMoreCommand="{Binding LoadMoreCommand}" />
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame HasShadow="true"
+                                   IsClippedToBounds="true"
+                                   Padding="0" 
+                                   CornerRadius="10"
+                                   Margin="10, 15">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Image Aspect="AspectFill"
+                                           Grid.Row="0"
+                                           Source="{Binding Thumbnail, Converter={converter:ImageToStringConverter}}" />
+
+                                    <Label Text="{Binding Name}" 
+                                            Margin="15,5" 
+                                            Grid.Row="1"
+                                            FontAttributes="Bold" 
+                                            HorizontalOptions="FillAndExpand" 
+                                            VerticalOptions="FillAndExpand" 
+                                            VerticalTextAlignment="Center" 
+                                            HorizontalTextAlignment="Start" 
+                                            Style="{DynamicResource NameStyle}"/>
+                                </Grid>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <ActivityIndicator VerticalOptions="End"
+                           IsVisible="{Binding IsBusy}" 
+                           IsRunning="{Binding IsBusy}"
+                           HorizontalOptions="Center" 
+                           BackgroundColor="Transparent" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

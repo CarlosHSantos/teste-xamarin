@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Frame xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="TheosHero.Views.Cards.CardDetailView"
+             HasShadow="true" Padding="0" IsClippedToBounds="true" Visual="Material" CornerRadius="8"
+             HeightRequest="130"
+             WidthRequest="130"
+             BackgroundColor="Black"
+             Opacity=".5">
+    <Grid>
+        <Label Text="{Binding Name}"  
+               Margin="15,0"
+               TextColor="White" 
+               HorizontalTextAlignment="Center" 
+               HorizontalOptions="CenterAndExpand" 
+               VerticalOptions="CenterAndExpand" 
+               FontAttributes="Bold" 
+               FontSize="Small" />
+    </Grid>
+</Frame>
