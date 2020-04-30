@@ -1,5 +1,6 @@
 ﻿using Acr.UserDialogs;
 using System;
+using System.Linq;
 using TheosHero.Model;
 using TheosHero.Service;
 using TheosHero.ViewModels;
@@ -30,7 +31,9 @@ namespace TheosHero.Views
             base.OnAppearing();
 
             var vm = BindingContext as HeroListViewModel;
-            vm.InicializarHerois.Execute(null);
+
+            if (vm.Heroes == null)
+                vm.InicializarHerois.Execute(null);
         }
     }
 }

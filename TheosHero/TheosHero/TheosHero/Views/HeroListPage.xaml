@@ -11,8 +11,6 @@
     <ContentPage.Content>
         <StackLayout>
             <SearchBar Placeholder="Pesquisar" 
-                       TextColor="White"
-                       PlaceholderColor="White"
                        HeightRequest="50"
                        Text="{Binding SearchText, Mode=TwoWay}"
                        SearchCommand="{Binding SearchCommand}"/>
