@@ -16,7 +16,6 @@
             <Style x:Key="HeroNameStyle" TargetType="Label">
                 <Setter Property="FontAttributes" Value="Bold" />
                 <Setter Property="FontSize" Value="32" />
-                <Setter Property="TextColor" Value="Black" />
                 <Setter Property="Margin" Value="24, 24, 0, 12" />
             </Style>
 
@@ -51,8 +50,8 @@
                     </Grid.RowDefinitions>
                     <pancakeview:PancakeView
                       Grid.Row="1"
+                        BackgroundColor="LightGray"
                       CornerRadius="24, 24, 0, 0"
-                      BackgroundColor="White"
                       Margin="0, 20, 0, 0">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -75,7 +74,6 @@
                             <Label
                               Grid.Row="1"
                               Text="Descrição"
-                              TextColor="Black"
                               Margin="24,0"
                               FontSize="Medium"/>
                             
@@ -89,7 +87,6 @@
                             
                                 <Label Text="Comics"
                                        FontSize="Medium"
-                                       TextColor="Black"
                                        FontAttributes="Bold"
                                        Margin="24,0"
                                        HorizontalOptions="StartAndExpand"/>
@@ -116,7 +113,6 @@
 
                                 <Label Text="Series"
                                        FontSize="Medium"
-                                       TextColor="Black"
                                        FontAttributes="Bold"
                                        Margin="24,0"
                                        HorizontalOptions="StartAndExpand"/>
@@ -143,7 +139,6 @@
 
                                 <Label Text="Stories"
                                        FontSize="Medium"
-                                       TextColor="Black"
                                        FontAttributes="Bold"
                                        Margin="24,0"
                                        HorizontalOptions="StartAndExpand"/>
@@ -170,7 +165,6 @@
 
                                 <Label Text="Events"
                                        FontSize="Medium"
-                                       TextColor="Black"
                                        FontAttributes="Bold"
                                        Margin="24,0"
                                        HorizontalOptions="StartAndExpand"/>

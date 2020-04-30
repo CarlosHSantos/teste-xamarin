@@ -46,9 +46,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>Apple Development: carlosekarina@outlook.com (WUP3BVBALM)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchLink>None</MtouchLink>
     <MtouchInterpreter>-all</MtouchInterpreter>
   </PropertyGroup>
@@ -134,11 +133,14 @@
     <PackageReference Include="Xamarin.Forms.PancakeView">
       <Version>1.4.2-beta</Version>
     </PackageReference>
+    <PackageReference Include="Acr.UserDialogs">
+      <Version>7.1.0.440</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\TheosHero\TheosHero.csproj">
-      <Project>{92903685-4C39-484D-9AB5-9AD84F6CF409}</Project>
+      <Project>{256ED58B-8DA9-4859-903C-90C65CF6830E}</Project>
       <Name>TheosHero</Name>
     </ProjectReference>
   </ItemGroup>

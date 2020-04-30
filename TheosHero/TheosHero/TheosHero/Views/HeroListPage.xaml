@@ -11,7 +11,6 @@
     <ContentPage.Content>
         <StackLayout>
             <SearchBar Placeholder="Pesquisar" 
-                       BackgroundColor="{StaticResource BlueColor}"
                        TextColor="White"
                        PlaceholderColor="White"
                        HeightRequest="50"
@@ -25,7 +24,8 @@
                       HasUnevenRows="True"
                       ItemsSource="{Binding Heroes}"
                       SelectedItem="{Binding SelectedHero, Mode=TwoWay}"
-                      ItemTapped="HeroList_ItemTapped">
+                      ItemTapped="HeroList_ItemTapped"
+                      BackgroundColor="DarkGray">
                 <ListView.Behaviors>
                     <behavior:InfiniteScroll LoadMoreCommand="{Binding LoadMoreCommand}" />
                 </ListView.Behaviors>

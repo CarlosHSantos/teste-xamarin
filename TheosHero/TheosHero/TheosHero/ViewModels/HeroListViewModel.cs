@@ -14,7 +14,7 @@ namespace TheosHero.ViewModels
     {
         public Command LoadMoreCommand { get; set; }
         public Command SearchCommand { get; set; }
-        private Command InicializarHerois { get; set; }
+        public Command InicializarHerois { get; set; }
 
         private ObservableCollection<Hero> heroes;
         public ObservableCollection<Hero> Heroes
@@ -88,7 +88,7 @@ namespace TheosHero.ViewModels
 
             InicializarHerois = new Command(async () =>
             {
-                using (Dialogs.Loading("Carregando"))
+                using (UserDialogs.Instance.Loading("Carregando"))
                 {
                     Heroes = await FiltrarHero();
                 }
@@ -96,7 +96,7 @@ namespace TheosHero.ViewModels
 
             SearchCommand = new Command(async () =>
             {
-                using (Dialogs.Loading("Carregando"))
+                using (UserDialogs.Instance.Loading("Carregando"))
                 {
                     Heroes = await FiltrarHero(SearchText);
                 }
@@ -123,8 +123,6 @@ namespace TheosHero.ViewModels
                 IsBusy = false;
 
             }, CanExecute());
-
-            InicializarHerois.Execute(null);
         }
 
         private async Task<ObservableCollection<Hero>> FiltrarHero(String filtro = null, int limit = 6, int offset = 0)

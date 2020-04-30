@@ -24,5 +24,13 @@ namespace TheosHero.Views
             var selectedHero = (Hero)(e.Item);
             await navigationService.NavigateToHeroDetail(selectedHero);
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            var vm = BindingContext as HeroListViewModel;
+            vm.InicializarHerois.Execute(null);
+        }
     }
 }
