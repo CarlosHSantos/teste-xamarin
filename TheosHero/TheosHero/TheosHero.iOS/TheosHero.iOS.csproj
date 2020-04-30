@@ -134,7 +134,7 @@
       <Version>1.4.2-beta</Version>
     </PackageReference>
     <PackageReference Include="Acr.UserDialogs">
-      <Version>7.1.0.440</Version>
+      <Version>7.1.0.442</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

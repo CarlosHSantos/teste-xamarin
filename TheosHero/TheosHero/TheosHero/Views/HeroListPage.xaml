@@ -13,7 +13,24 @@
             <SearchBar Placeholder="Pesquisar" 
                        HeightRequest="50"
                        Text="{Binding SearchText, Mode=TwoWay}"
-                       SearchCommand="{Binding SearchCommand}"/>
+                       SearchCommand="{Binding SearchCommand}">
+                <SearchBar.PlaceholderColor>
+                    <OnPlatform x:TypeArguments="Color">
+                        <On Platform="Android" Value="White"/>
+                    </OnPlatform>
+                </SearchBar.PlaceholderColor>
+                <SearchBar.TextColor>
+                    <OnPlatform x:TypeArguments="Color">
+                        <On Platform="Android" Value="White"/>
+                    </OnPlatform>
+                </SearchBar.TextColor>
+                <SearchBar.BackgroundColor>
+                    <OnPlatform x:TypeArguments="Color">
+                        <On Platform="Android" Value="{StaticResource BlueColor}"/>
+                    </OnPlatform>
+                </SearchBar.BackgroundColor>
+            </SearchBar>
+            
 
             <ListView HorizontalOptions="FillAndExpand"                           
                       VerticalOptions="FillAndExpand"
