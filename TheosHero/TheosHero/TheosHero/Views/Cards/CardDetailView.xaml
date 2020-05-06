@@ -8,16 +8,17 @@
              HasShadow="true" Padding="0" IsClippedToBounds="true" Visual="Material" CornerRadius="8"
              HeightRequest="130"
              WidthRequest="130"
-             BackgroundColor="Black"
+             BackgroundColor="{DynamicResource CardBackgroundColor}"
              Opacity=".5">
     <Grid>
         <Label Text="{Binding Name}"  
                Margin="15,0"
-               TextColor="White" 
+               Style="{DynamicResource DescriptionStyle}"
                HorizontalTextAlignment="Center" 
                HorizontalOptions="CenterAndExpand" 
                VerticalOptions="CenterAndExpand" 
                FontAttributes="Bold" 
+               FontFamily="{StaticResource RobotoLight}" 
                FontSize="Small" />
     </Grid>
 </Frame>

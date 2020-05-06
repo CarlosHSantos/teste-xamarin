@@ -4,16 +4,18 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:converter="clr-namespace:TheosHero.Converter"
-             xmlns:behavior="clr-namespace:TheosHero.Behavior"
              mc:Ignorable="d"
              x:Class="TheosHero.Views.HeroListPage"
-             Title="Theos Hero">
+             Title="Theos Hero"
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
     <ContentPage.Content>
         <StackLayout>
             <SearchBar Placeholder="Pesquisar" 
                        HeightRequest="50"
                        Text="{Binding SearchText, Mode=TwoWay}"
-                       SearchCommand="{Binding SearchCommand}">
+                       SearchCommand="{Binding SearchCommand}"
+                       PlaceholderColor="{DynamicResource PrimaryColor}"
+                       TextColor="{DynamicResource PrimaryColor}">
                 <SearchBar.PlaceholderColor>
                     <OnPlatform x:TypeArguments="Color">
                         <On Platform="Android" Value="White"/>
@@ -24,13 +26,14 @@
                         <On Platform="Android" Value="White"/>
                     </OnPlatform>
                 </SearchBar.TextColor>
+
                 <SearchBar.BackgroundColor>
                     <OnPlatform x:TypeArguments="Color">
                         <On Platform="Android" Value="{StaticResource BlueColor}"/>
                     </OnPlatform>
                 </SearchBar.BackgroundColor>
             </SearchBar>
-            
+
 
             <ListView HorizontalOptions="FillAndExpand"                           
                       VerticalOptions="FillAndExpand"
@@ -40,48 +43,93 @@
                       ItemsSource="{Binding Heroes}"
                       SelectedItem="{Binding SelectedHero, Mode=TwoWay}"
                       ItemTapped="HeroList_ItemTapped"
-                      BackgroundColor="DarkGray">
-                <ListView.Behaviors>
-                    <behavior:InfiniteScroll LoadMoreCommand="{Binding LoadMoreCommand}" />
-                </ListView.Behaviors>
+                      BackgroundColor="{DynamicResource PageBackgroundColor}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Frame HasShadow="true"
-                                   IsClippedToBounds="true"
-                                   Padding="0" 
-                                   CornerRadius="10"
-                                   Margin="10, 15">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Image Aspect="AspectFill"
-                                           Grid.Row="0"
-                                           Source="{Binding Thumbnail, Converter={converter:ImageToStringConverter}}" />
+                            <StackLayout>
+                                <Frame HasShadow="true"
+                                       IsClippedToBounds="true"
+                                       Padding="0" 
+                                       CornerRadius="10"
+                                       Margin="10, 15"
+                                       BackgroundColor="{DynamicResource CardBackgroundColor}">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Image Aspect="AspectFill"
+                                               Grid.Row="0"
+                                               Source="{Binding Thumbnail, Converter={converter:ImageToStringConverter}}"/>
 
-                                    <Label Text="{Binding Name}" 
-                                            Margin="15,5" 
-                                            Grid.Row="1"
-                                            FontAttributes="Bold" 
-                                            HorizontalOptions="FillAndExpand" 
-                                            VerticalOptions="FillAndExpand" 
-                                            VerticalTextAlignment="Center" 
-                                            HorizontalTextAlignment="Start" 
-                                            Style="{DynamicResource NameStyle}"/>
-                                </Grid>
-                            </Frame>
+                                        <Label Text="{Binding Name}" 
+                                               Margin="15,5" 
+                                               Grid.Row="1"
+                                               FontAttributes="Bold" 
+                                               HorizontalOptions="FillAndExpand" 
+                                               VerticalOptions="FillAndExpand" 
+                                               VerticalTextAlignment="Center" 
+                                               HorizontalTextAlignment="Start" 
+                                               FontSize="Large"
+                                               FontFamily="{StaticResource RobotoBlack}" 
+                                               Style="{DynamicResource NameStyle}"/>
+                                        <Label Text="{Binding Description}" 
+                                               Margin="15,5" 
+                                               Grid.Row="2"
+                                               MaxLines="2"
+                                               LineBreakMode="TailTruncation"
+                                               HorizontalOptions="FillAndExpand" 
+                                               VerticalOptions="FillAndExpand" 
+                                               VerticalTextAlignment="Center" 
+                                               HorizontalTextAlignment="Start" 
+                                               Style="{DynamicResource DescriptionStyle}"
+                                               FontFamily="{StaticResource RobotoLight}" />
+                                    </Grid>
+                                </Frame>
+                            </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-
-            <ActivityIndicator VerticalOptions="End"
-                           IsVisible="{Binding IsBusy}" 
-                           IsRunning="{Binding IsBusy}"
-                           HorizontalOptions="Center" 
-                           BackgroundColor="Transparent" />
+            <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand" HeightRequest="60">
+                <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                    <Button Text="&lt;&lt;" WidthRequest="40" BackgroundColor="{DynamicResource BackGroundButtonColor}" Command="{Binding PrimeiroCommand}" TextColor="{DynamicResource PrimaryColor}" HorizontalOptions="Start" CornerRadius="10" VerticalOptions="CenterAndExpand" Margin="5, 5, 0, 5"/>
+                    <Button Text="&lt;" WidthRequest="40" BackgroundColor="{DynamicResource BackGroundButtonColor}" Command="{Binding AnteriorCommand}" TextColor="{DynamicResource PrimaryColor}" HorizontalOptions="Start" CornerRadius="10" VerticalOptions="CenterAndExpand" Margin="0, 5"/>
+                    <CollectionView ItemsSource="{Binding Paginacao}"
+                                    SelectedItem="{Binding SelectedPaginacao, Mode=TwoWay}"
+                                    SelectionMode="Single"
+                                    SelectionChanged="CollectionPaginacao_SelectionChanged"
+                                    Margin="0, 10">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Horizontal" SnapPointsAlignment="Center" SnapPointsType="Mandatory" HorizontalItemSpacing="5"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame HasShadow="true" 
+                                       Padding="0" 
+                                       IsClippedToBounds="true" 
+                                       Visual="Material" 
+                                       CornerRadius="8"
+                                       WidthRequest="30"
+                                       BackgroundColor="{DynamicResource CardBackgroundColor}">
+                                    <Grid>
+                                        <Label Text="{Binding Pagina}"  
+                                               TextColor="{DynamicResource PrimaryColor}"
+                                               HorizontalTextAlignment="Center" 
+                                               HorizontalOptions="CenterAndExpand" 
+                                               VerticalOptions="CenterAndExpand" 
+                                               FontSize="Small" />
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                    <Button Text="&gt;" WidthRequest="40" BackgroundColor="{DynamicResource BackGroundButtonColor}" Command="{Binding ProximoCommand}" TextColor="{DynamicResource PrimaryColor}" HorizontalOptions="End" CornerRadius="10" VerticalOptions="CenterAndExpand" Margin="0, 5"/>
+                    <Button Text="&gt;&gt;" WidthRequest="40" BackgroundColor="{DynamicResource BackGroundButtonColor}" Command="{Binding UltimoCommand}" TextColor="{DynamicResource PrimaryColor}" HorizontalOptions="End" CornerRadius="10" VerticalOptions="CenterAndExpand" Margin="0, 5, 5, 5"/>
+                </StackLayout>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -35,5 +35,13 @@ namespace TheosHero.Views
             if (vm.Heroes == null)
                 vm.InicializarHerois.Execute(null);
         }
+
+        private void CollectionPaginacao_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var vm = BindingContext as HeroListViewModel;
+            vm.SelectedPaginacao = (e.CurrentSelection.FirstOrDefault() as Paginacao);
+
+            vm.PaginacaoCommand.Execute(null);
+        }
     }
 }

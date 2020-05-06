@@ -7,16 +7,51 @@
              x:Class="TheosHero.App">
     <Application.Resources>
         <ResourceDictionary>
-            <Color x:Key="CardBackgroundColor">#eceff1</Color>
-            <Color x:Key="NameColor">#546e7a</Color>
             <Color x:Key="BlueColor">#2196F3</Color>
+            
+            <OnPlatform x:Key="RobotoBlack"
+                        x:TypeArguments="x:String"
+                        iOS="Roboto-Black"
+                        Android="Roboto-Black.ttf#Roboto"/>
+
+            <OnPlatform x:Key="RobotoLight"
+                        x:TypeArguments="x:String"
+                        iOS="Roboto-Light"
+                        Android="Roboto-Light.ttf#Roboto"/>
+
+            <AppThemeColor x:Key="PageBackgroundColor"
+                       Light="White"
+                       Dark="Black" />
+            <AppThemeColor x:Key="CardBackgroundColor"
+                       Light="WhiteSmoke"
+                       Dark="{StaticResource BlueColor}" />
+            <AppThemeColor x:Key="SecondaryColor"
+                       Light="WhiteSmoke"
+                       Dark="{StaticResource BlueColor}" />
+            <AppThemeColor x:Key="PrimaryColor"
+                       Light="Black"
+                       Dark="White" />
+
+            <AppThemeColor x:Key="BackGroundButtonColor"
+                       Light="WhiteSmoke"
+                       Dark="{StaticResource BlueColor}" />
 
             <Style x:Key="NameStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="16"/>
-                <Setter Property="TextColor" Value="{DynamicResource NameColor}"/>
+                <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
             </Style>
 
+            <Style x:Key="NameDetailStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="32"/>
+                <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+            </Style>
+
+            <Style x:Key="DescriptionStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}"/>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

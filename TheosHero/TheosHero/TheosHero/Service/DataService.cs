@@ -18,9 +18,9 @@ namespace TheosHero.Service
         private const string publicKey = "46ee74dbd43238ae1429181347ca6778";
         private const string privateKey = "0da869948d1316ecc4ba3147e2e464b3c0762d23";
 
-        internal async Task<ObservableCollection<Hero>> GetHeros(string filter, int limit, int offset)
+        internal async Task<MarvelApiData<Hero>> GetHeros(string filter, int limit, int offset)
         {
-            ObservableCollection<Hero> personagens = new ObservableCollection<Hero>();
+            MarvelApiData<Hero> personagens = new MarvelApiData<Hero>();
             try
             {
                 string ts = DateTime.Now.Ticks.ToString();
@@ -47,8 +47,7 @@ namespace TheosHero.Service
                        {
                            var response = await client.ExecuteAsync(request);
 
-                           var dados = JsonConvert.DeserializeObject<MarvelApiResult<Hero>>(response.Content).Data;
-                           personagens = new ObservableCollection<Hero>(dados.Results);
+                           personagens = JsonConvert.DeserializeObject<MarvelApiResult<Hero>>(response.Content).Data;
                        });
 
                 return await Task.Run(() => personagens);

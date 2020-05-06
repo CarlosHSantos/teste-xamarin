@@ -9,23 +9,8 @@
              mc:Ignorable="d"
              x:Class="TheosHero.Views.HeroDetailPage"
              xmlns:converter="clr-namespace:TheosHero.Converter"
-             Title="{Binding Hero.Name}">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-
-            <Style x:Key="HeroNameStyle" TargetType="Label">
-                <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="FontSize" Value="32" />
-                <Setter Property="Margin" Value="24, 24, 0, 12" />
-            </Style>
-
-            <Style x:Key="HeroDescriptionStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="12" />
-                <Setter Property="Margin" Value="24, 5" />
-            </Style>
-            
-        </ResourceDictionary>
-    </ContentPage.Resources>
+             Title="{Binding Hero.Name}"
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
@@ -34,11 +19,11 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Image
-              x:Name="HeaderView"
-              Grid.Row="0"
-              Grid.RowSpan="2"
-              Aspect="AspectFill"
-              Source="{Binding Hero.Thumbnail, Converter={converter:ImageToStringConverter}}"/>
+                x:Name="HeaderView"
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Aspect="AspectFill"
+                Source="{Binding Hero.Thumbnail, Converter={converter:ImageToStringConverter}}"/>
             <controls:TheosControl
               x:Name="Parallax"
               Grid.Row="0"
@@ -49,10 +34,10 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <pancakeview:PancakeView
-                      Grid.Row="1"
-                        BackgroundColor="LightGray"
-                      CornerRadius="24, 24, 0, 0"
-                      Margin="0, 20, 0, 0">
+                        Grid.Row="1"
+                        CornerRadius="24, 24, 0, 0"
+                        Margin="0, 20, 0, 0"
+                        BackgroundColor="{DynamicResource PageBackgroundColor}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -68,18 +53,23 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Label
-                              Grid.Row="0"
-                              Text="{Binding Hero.Name}"
-                              Style="{StaticResource HeroNameStyle}"/>
+                                Grid.Row="0"
+                                Text="{Binding Hero.Name}"
+                                FontFamily="{StaticResource RobotoBlack}"
+                                Style="{DynamicResource NameDetailStyle}"
+                                Margin="24, 24, 0, 12"/>
                             <Label
-                              Grid.Row="1"
-                              Text="Descrição"
-                              Margin="24,0"
-                              FontSize="Medium"/>
+                                Grid.Row="1"
+                                Text="Descrição"
+                                Style="{DynamicResource DescriptionStyle}"
+                                Margin="24,0"
+                                FontSize="Medium"/>
                             
                             <Label Grid.Row="2"
                                    Text="{Binding Hero.Description}"
-                                   Style="{StaticResource HeroDescriptionStyle}"/>
+                                   Style="{DynamicResource DescriptionStyle}"
+                                   FontFamily="{StaticResource RobotoLight}" 
+                                   Margin="24, 5"/>
                             <StackLayout Orientation="Horizontal"
                                          Grid.Row="3" 
                                          VerticalOptions="StartAndExpand"
@@ -88,6 +78,7 @@
                                 <Label Text="Comics"
                                        FontSize="Medium"
                                        FontAttributes="Bold"
+                                       Style="{DynamicResource DescriptionStyle}"
                                        Margin="24,0"
                                        HorizontalOptions="StartAndExpand"/>
                             </StackLayout>
@@ -95,7 +86,8 @@
                                             Margin="24,0, 24, 10"
                                             SelectionMode="None"
                                             HeightRequest="130" 
-                                            ItemsSource="{Binding ComicsItens}">
+                                            ItemsSource="{Binding ComicsItens}"
+                                            BackgroundColor="{DynamicResource PageBackgroundColor}">
                                 <CollectionView.ItemsLayout>
                                     <GridItemsLayout Orientation="Horizontal" SnapPointsAlignment="Center" SnapPointsType="Mandatory" HorizontalItemSpacing="5"/>
                                 </CollectionView.ItemsLayout>
@@ -114,6 +106,7 @@
                                 <Label Text="Series"
                                        FontSize="Medium"
                                        FontAttributes="Bold"
+                                       Style="{DynamicResource DescriptionStyle}"
                                        Margin="24,0"
                                        HorizontalOptions="StartAndExpand"/>
                             </StackLayout>
@@ -121,7 +114,8 @@
                                             Margin="24,0, 24, 10"
                                             SelectionMode="None"
                                             HeightRequest="130" 
-                                            ItemsSource="{Binding SeriesItens}">
+                                            ItemsSource="{Binding SeriesItens}"
+                                            BackgroundColor="{DynamicResource PageBackgroundColor}">
                                 <CollectionView.ItemsLayout>
                                     <GridItemsLayout Orientation="Horizontal" SnapPointsAlignment="Center" SnapPointsType="Mandatory" HorizontalItemSpacing="5"/>
                                 </CollectionView.ItemsLayout>
@@ -140,6 +134,7 @@
                                 <Label Text="Stories"
                                        FontSize="Medium"
                                        FontAttributes="Bold"
+                                       Style="{DynamicResource DescriptionStyle}"
                                        Margin="24,0"
                                        HorizontalOptions="StartAndExpand"/>
                             </StackLayout>
@@ -147,7 +142,8 @@
                                             Margin="24,0, 24, 10"
                                             SelectionMode="None"
                                             HeightRequest="130" 
-                                            ItemsSource="{Binding StoriesItens}">
+                                            ItemsSource="{Binding StoriesItens}"
+                                            BackgroundColor="{DynamicResource PageBackgroundColor}">
                                 <CollectionView.ItemsLayout>
                                     <GridItemsLayout Orientation="Horizontal" SnapPointsAlignment="Center" SnapPointsType="Mandatory" HorizontalItemSpacing="5"/>
                                 </CollectionView.ItemsLayout>
@@ -166,6 +162,7 @@
                                 <Label Text="Events"
                                        FontSize="Medium"
                                        FontAttributes="Bold"
+                                       Style="{DynamicResource DescriptionStyle}"
                                        Margin="24,0"
                                        HorizontalOptions="StartAndExpand"/>
                             </StackLayout>
@@ -173,7 +170,8 @@
                                             Margin="24,0, 24, 10"
                                             SelectionMode="None"
                                             HeightRequest="130" 
-                                            ItemsSource="{Binding EventsItens}">
+                                            ItemsSource="{Binding EventsItens}"
+                                            BackgroundColor="{DynamicResource PageBackgroundColor}">
                                 <CollectionView.ItemsLayout>
                                     <GridItemsLayout Orientation="Horizontal" SnapPointsAlignment="Center" SnapPointsType="Mandatory" HorizontalItemSpacing="5"/>
                                 </CollectionView.ItemsLayout>

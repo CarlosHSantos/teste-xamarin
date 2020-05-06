@@ -1,8 +1,11 @@
 ﻿using Acr.UserDialogs;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Xml.Schema;
 using TheosHero.Model;
 using TheosHero.Service;
 using Xamarin.Forms;
@@ -12,7 +15,6 @@ namespace TheosHero.ViewModels
 {
     public class HeroListViewModel : AbstractViewModel
     {
-        public Command LoadMoreCommand { get; set; }
         public Command SearchCommand { get; set; }
         public Command InicializarHerois { get; set; }
 
@@ -27,6 +29,37 @@ namespace TheosHero.ViewModels
             {
                 heroes = value;
                 OnPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<Paginacao> paginacao;
+        public ObservableCollection<Paginacao> Paginacao
+        {
+            get
+            {
+                return paginacao;
+            }
+            set
+            {
+                paginacao = value;
+                OnPropertyChanged();
+            }
+        }
+
+        Paginacao selectedPaginacao;
+        public Paginacao SelectedPaginacao
+        {
+            get
+            {
+                return selectedPaginacao;
+            }
+            set
+            {
+                if (selectedPaginacao != value)
+                {
+                    selectedPaginacao = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -77,6 +110,12 @@ namespace TheosHero.ViewModels
             }
         }
 
+        public Command PaginacaoCommand { get; set; }
+        public Command PrimeiroCommand { get; set; }
+        public Command UltimoCommand { get; set; }
+        public Command ProximoCommand { get; set; }
+        public Command AnteriorCommand { get; set; }
+
         private DataService dataService;
 
         private readonly INavigationService navigationService;
@@ -90,50 +129,94 @@ namespace TheosHero.ViewModels
             {
                 using (UserDialogs.Instance.Loading("Carregando"))
                 {
-                    Heroes = await FiltrarHero();
+                    Heroes = await FiltrarHero("", 6, 0, true);
+
+                    SelectedPaginacao = Paginacao.FirstOrDefault();
                 }
+            });
+
+            PaginacaoCommand = new Command(async () =>
+            {
+                using (UserDialogs.Instance.Loading("Carregando"))
+                {
+                    if (string.IsNullOrEmpty(SearchText))
+                        Heroes = await FiltrarHero("", 6, SelectedPaginacao.OffSet);
+                    else
+                        Heroes = await FiltrarHero(SearchText, 6, SelectedPaginacao.OffSet);
+                }
+            });
+
+            PrimeiroCommand = new Command(async () =>
+            {
+                using (UserDialogs.Instance.Loading("Carregando"))
+                {
+                    SelectedPaginacao = Paginacao.FirstOrDefault();
+                    if (string.IsNullOrEmpty(SearchText))
+                        Heroes = await FiltrarHero("", 6, SelectedPaginacao.OffSet);
+                    else
+                        Heroes = await FiltrarHero(SearchText, 6, SelectedPaginacao.OffSet);
+                }
+            });
+
+            UltimoCommand = new Command(async () =>
+            {
+                using (UserDialogs.Instance.Loading("Carregando"))
+                {
+                    SelectedPaginacao = Paginacao.LastOrDefault();
+                    if (string.IsNullOrEmpty(SearchText))
+                        Heroes = await FiltrarHero("", 6, SelectedPaginacao.OffSet);
+                    else
+                        Heroes = await FiltrarHero(SearchText, 6, SelectedPaginacao.OffSet);
+                }
+            });
+
+            ProximoCommand = new Command(async () =>
+            {
+                if (SelectedPaginacao.Pagina < Paginacao.LastOrDefault().Pagina)
+                    using (UserDialogs.Instance.Loading("Carregando"))
+                    {
+                        SelectedPaginacao = Paginacao.FirstOrDefault(x => x.Pagina == SelectedPaginacao.Pagina + 1);
+                        if (string.IsNullOrEmpty(SearchText))
+                            Heroes = await FiltrarHero("", 6, SelectedPaginacao.OffSet);
+                        else
+                            Heroes = await FiltrarHero(SearchText, 6, SelectedPaginacao.OffSet);
+                    }
+            });
+
+            AnteriorCommand = new Command(async () =>
+            {
+                if (selectedPaginacao.Pagina > Paginacao.FirstOrDefault().Pagina)
+                    using (UserDialogs.Instance.Loading("Carregando"))
+                    {
+                        SelectedPaginacao = Paginacao.FirstOrDefault(x => x.Pagina == SelectedPaginacao.Pagina - 1);
+                        if (string.IsNullOrEmpty(SearchText))
+                            Heroes = await FiltrarHero("", 6, SelectedPaginacao.OffSet);
+                        else
+                            Heroes = await FiltrarHero(SearchText, 6, SelectedPaginacao.OffSet);
+                    }
             });
 
             SearchCommand = new Command(async () =>
             {
                 using (UserDialogs.Instance.Loading("Carregando"))
                 {
-                    Heroes = await FiltrarHero(SearchText);
+                    Heroes = await FiltrarHero(SearchText, 6, 0, true);
                 }
             });
-
-            int offSetSearch = 6;
-            LoadMoreCommand = new Command(async () =>
-            {
-                IsBusy = true;
-
-                var result = await FiltrarHero(SearchText, 6, offSetSearch);
-                offSetSearch += 30;
-
-                if (result.Any())
-                {
-                    ThereIsResultList = true;
-                    result.ForEach(hero => Heroes.Add(hero));
-                }
-                else
-                {
-                    ThereIsResultList = false;
-                }
-
-                IsBusy = false;
-
-            }, CanExecute());
         }
 
-        private async Task<ObservableCollection<Hero>> FiltrarHero(String filtro = null, int limit = 6, int offset = 0)
+        private async Task<ObservableCollection<Hero>> FiltrarHero(String filtro = null, int limit = 6, int offset = 0, bool criaPaginacao = false)
         {
             var heroes = new ObservableCollection<Hero>();
             var result = await dataService.GetHeros(filtro, limit, offset);
 
-            if (result.Any())
+            if (result.Total > 0)
             {
+                if (criaPaginacao)
+                    CriaPaginacao(limit, result);
+
                 ThereIsResultList = true;
-                heroes = result;
+                heroes = new ObservableCollection<Hero>(result.Results);
             }
             else
             {
@@ -143,9 +226,32 @@ namespace TheosHero.ViewModels
             return heroes;
         }
 
-        private Func<bool> CanExecute()
+        private void CriaPaginacao(int limit, MarvelApiData<Hero> result)
         {
-            return new Func<bool>(() => ThereIsResultList);
+            var pag = 1;
+            Paginacao = new ObservableCollection<Paginacao>();
+            for (int i = 0; i < result.Total; i++)
+            {
+                if (IsDivididoPor(i, limit) || Paginacao.Count() == 0)
+                {
+                    Paginacao.Add(new Paginacao()
+                    {
+                        OffSet = i,
+                        Pagina = pag
+                    });
+                    pag += 1;
+                }
+            }
+        }
+
+        private Boolean IsDivididoPor(long numero, long divNumero)
+        {
+            if (divNumero != 0)
+            {
+                return (numero % divNumero) == 0;
+            }
+            else
+                return false;
         }
     }
 }
